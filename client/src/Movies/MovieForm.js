@@ -18,6 +18,11 @@ function MovieForm(props) {
     const updateSubmitMovie = (event) => {
         event.preventDefault();
         console.log(updateMovie)
+
+        axios
+            .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
+            .then(res => console.log(res))
+            .catch(err => console.log(err)) 
     } 
 
     const handleChange = event => {
@@ -37,7 +42,7 @@ function MovieForm(props) {
                 <input 
                     type='text'
                     name='metascore'
-                    value={updateMovie.metascore}
+                    value={Number(updateMovie.metascore)}
                     onChange={handleChange}
                 />
                 <input
