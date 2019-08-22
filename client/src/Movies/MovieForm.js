@@ -20,7 +20,6 @@ function MovieForm(props) {
     console.log(props.match.params.id);
 
     const [updateMovie, setUpdateMovie] = useState({stars: []})
-    const [updateStars, setUpdateStars] = useState([]) 
 
     useEffect(() => {
         axios.get(`http://localhost:5000/api/movies/${props.match.params.id}`)
