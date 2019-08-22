@@ -62,10 +62,10 @@ function MovieForm(props) {
     }
 
     const handleStarsChange = (event, index) => {
-        const starsArray = [...updateMovie.stars]
+        const starsArray = [...updateStars]
         starsArray[index] = event.target.value
-        setUpdateMovie({
-            ...updateMovie,
+        setUpdateStars({
+            ...updateStars,
             stars: starsArray
         })
     }
@@ -104,7 +104,7 @@ function MovieForm(props) {
                         <Form.Input
                             type='text'
                             name='star'
-                            value={[index]}
+                            value={updateStars[index]}
                             onChange={event => handleStarsChange(event, index)}
                         />
                     </Form.Group>
