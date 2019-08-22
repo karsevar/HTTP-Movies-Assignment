@@ -42,7 +42,7 @@ function MovieForm(props) {
                 <input 
                     type='text'
                     name='metascore'
-                    value={Number(updateMovie.metascore)}
+                    value={updateMovie.metascore}
                     onChange={handleChange}
                 />
                 <input
