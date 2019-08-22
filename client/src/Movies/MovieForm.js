@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Button, Form, Input} from 'semantic-ui-react';
 import styled from 'styled-components';
+import Movie from './Movie';
 
 const FormDiv = styled.div`
     background-color: #fff;
@@ -33,22 +34,27 @@ function MovieForm(props) {
 
     const updateSubmitMovie = (event) => {
         event.preventDefault();
+        setUpdateMovie({
+            ...updateMovie,
+            stars: [...updateStars]
+        })
+
         console.log(updateMovie)
 
-        axios
-            .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
-            .then(res => {
-                console.log(res)
-                setUpdateMovie({
-                    id: '',
-                    metascore: '',
-                    stars: [],
-                    title: '',
-                    director: ''
-                })
-                props.history.push("/")
-            })
-            .catch(err => console.log(err)) 
+        // axios
+        //     .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
+        //     .then(res => {
+        //         console.log(res)
+        //         setUpdateMovie({
+        //             id: '',
+        //             metascore: '',
+        //             stars: [],
+        //             title: '',
+        //             director: ''
+        //         })
+        //         props.history.push("/")
+        //     })
+        //     .catch(err => console.log(err)) 
     } 
 
     const handleChange = event => {
@@ -56,9 +62,12 @@ function MovieForm(props) {
     }
 
     const handleStarsChange = (event, index) => {
-        const star = updateStars[index]
-        setUpdateStars([...updateStars, event.target.value])
-        console.log(updateStars)
+        const starsArray = [...updateMovie.stars]
+        starsArray[index] = event.target.value
+        setUpdateMovie({
+            ...updateMovie,
+            stars: starsArray
+        })
     }
 
 
@@ -95,8 +104,8 @@ function MovieForm(props) {
                         <Form.Input
                             type='text'
                             name='star'
-                            value={updateStars[index]}
-                            //onChange={handleStarsChange}
+                            value={[index]}
+                            onChange={event => handleStarsChange(event, index)}
                         />
                     </Form.Group>
                     )
