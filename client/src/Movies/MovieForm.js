@@ -19,14 +19,13 @@ const FormDiv = styled.div`
 function MovieForm(props) {
     console.log(props.match.params.id);
 
-    const [updateMovie, setUpdateMovie] = useState({})
+    const [updateMovie, setUpdateMovie] = useState({stars: []})
     const [updateStars, setUpdateStars] = useState([]) 
 
     useEffect(() => {
         axios.get(`http://localhost:5000/api/movies/${props.match.params.id}`)
             .then(res => {
-                // console.log(res.data)
-                setUpdateStars([...res.data.stars])
+                console.log(res.data)
                 setUpdateMovie({...res.data})
             }) 
             .catch(err => console.log(err)) 
@@ -34,27 +33,23 @@ function MovieForm(props) {
 
     const updateSubmitMovie = (event) => {
         event.preventDefault();
-        setUpdateMovie({
-            ...updateMovie,
-            stars: [...updateStars]
-        })
 
         console.log(updateMovie)
 
-        // axios
-        //     .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
-        //     .then(res => {
-        //         console.log(res)
-        //         setUpdateMovie({
-        //             id: '',
-        //             metascore: '',
-        //             stars: [],
-        //             title: '',
-        //             director: ''
-        //         })
-        //         props.history.push("/")
-        //     })
-        //     .catch(err => console.log(err)) 
+        axios
+            .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
+            .then(res => {
+                console.log(res)
+                setUpdateMovie({
+                    id: '',
+                    metascore: '',
+                    stars: [],
+                    title: '',
+                    director: ''
+                })
+                props.history.push("/")
+            })
+            .catch(err => console.log(err)) 
     } 
 
     const handleChange = event => {
@@ -62,17 +57,17 @@ function MovieForm(props) {
     }
 
     const handleStarsChange = (event, index) => {
-        const starsArray = [...updateStars]
+        const starsArray = [...updateMovie.stars]
         starsArray[index] = event.target.value
-        setUpdateStars({
-            ...updateStars,
+        setUpdateMovie({
+            ...updateMovie,
             stars: starsArray
         })
     }
 
-
     return (
         <FormDiv>
+            {console.log(updateMovie)}
             <Form onSubmit={updateSubmitMovie}>
                 <Form.Group widths='equal'>
                     <Form.Input 
@@ -98,18 +93,20 @@ function MovieForm(props) {
                         onChange={handleChange}
                     />
                 </Form.Group>
-                {updateStars.map((star, index) => {
-                    return (
-                    <Form.Group key={index}  widths='equal'>
-                        <Form.Input
-                            type='text'
-                            name='star'
-                            value={updateStars[index]}
-                            onChange={event => handleStarsChange(event, index)}
-                        />
-                    </Form.Group>
-                    )
-                })}
+                {
+                    updateMovie.stars.map((movie, index) => {
+                            return (
+                            <Form.Group key={index}  widths='equal'>
+                                <input
+                                    type='text'
+                                    name='star'
+                                    value={updateMovie.stars[index]}
+                                    onChange={event => handleStarsChange(event, index)}
+                                />
+                            </Form.Group>
+                            )
+                        })
+                }
                 <Button>Submit Changes</Button>
             </Form>
 
