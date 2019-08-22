@@ -21,7 +21,17 @@ function MovieForm(props) {
 
         axios
             .put(`http://localhost:5000/api/movies/${props.match.params.id}`, updateMovie)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res)
+                setUpdateMovie({
+                    id: '',
+                    metascore: '',
+                    stars: [],
+                    title: '',
+                    director: ''
+                })
+                props.history.push("/")
+            })
             .catch(err => console.log(err)) 
     } 
 
